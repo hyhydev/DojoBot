@@ -1,0 +1,13 @@
+{
+    "name": "dojobot",
+    "version": "0.1.0",
+    "private": "true",
+    "scripts": {
+        "start": "node ./src/bot.mjs",
+        "reload": "node ./src/reload.mjs"
+    },
+    "dependencies": {
+        "discord.js": "^14.14.1",
+        "dotenv": "^16.4.5"
+    }
+}
