@@ -52,27 +52,37 @@ client.on("interactionCreate", async (interaction) => {
     if (!interaction.isCommand()) return;
 
     if (interaction.commandName === "update") {
-        const player = interaction.options.data.find(
-            (o) => o.name === "player"
-        );
-        const belt = interaction.options.data.find(
-            (o) => o.name === "belt"
-        )?.value;
+        if (
+            interaction.member?.roles.cache.some(
+                (role) => role.name === "Moderator"
+            )
+        ) {
+            const player = interaction.options.data.find(
+                (o) => o.name === "player"
+            );
+            const belt = interaction.options.data.find(
+                (o) => o.name === "belt"
+            )?.value;
 
-        const guild = client.guilds.cache.find((g) => g.id == stadiumGuildId);
+            const guild = client.guilds.cache.find(
+                (g) => g.id == stadiumGuildId
+            );
 
-        const removeRoles = belts.map((b) =>
-            guild.roles.cache.find((r) => r.id == b.roleId)
-        );
-        await player?.member?.roles.remove(removeRoles);
+            const removeRoles = belts.map((b) =>
+                guild.roles.cache.find((r) => r.id == b.roleId)
+            );
+            await player?.member?.roles.remove(removeRoles);
 
-        const addRole = guild.roles.cache.find((r) => r.id == belt);
-        await player?.member?.roles.add(addRole);
+            const addRole = guild.roles.cache.find((r) => r.id == belt);
+            await player?.member?.roles.add(addRole);
 
-        const colour = belts.find((b) => b.roleId === belt);
-        await interaction.reply(
-            `Congrats to ${player?.user} for being awarded their ${colour?.name} belt!`
-        );
+            const colour = belts.find((b) => b.roleId === belt);
+            await interaction.reply(
+                `Congrats to ${player?.user} for being awarded their ${colour?.name} belt!`
+            );
+        } else {
+            await interaction.reply(`Moderators only!`);
+        }
     }
 });
 
